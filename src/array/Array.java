@@ -59,11 +59,11 @@ public class Array<T> {
      * 向数组指定index位置添加元素
      * */
     public void add(int index, T element) {
-        if (size==data.length){
-            throw new IllegalArgumentException("Add failed. Array is full.");
-        }
         if (index<0 || index>size) {
             throw new IllegalArgumentException("Add failed. Require index >=0 and index < =size.");
+        }
+        if (size==data.length){
+            resize(2*size);
         }
         for (int i = size-1; i >= index ; i--) {
             data[i+1] = data[i];
@@ -109,6 +109,10 @@ public class Array<T> {
         for (int i = index; i < size ; i++) {
             data[i] = data[i+1];
         }
+        if (size == data.length/2){
+            resize(data.length/2);
+        }
+        data[size]=null;
         return removeElement;
     }
 
@@ -154,6 +158,14 @@ public class Array<T> {
             throw new IllegalArgumentException("Get failed. Index is illegal");
         }
         return data[index];
+    }
+
+    private void resize(int newCapacity) {
+        T[] newData = (T[])new Object[newCapacity];
+        for (int i = 0; i < data.length; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
     }
 
     @Override
