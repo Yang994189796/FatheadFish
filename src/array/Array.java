@@ -81,6 +81,16 @@ public class Array<T> {
         return -1;
     }
 
+    public int[] findAll(T element){
+        int[] res = new int[size];
+        for (int i = 0; i < size; i++) {
+            if (element.equals(data[i])){
+                res[i]=i;
+            }
+        }
+        return res;
+    };
+
     public boolean contain(T element) {
         for (int i = 0; i < size; i++) {
             if (element.equals(data[i])){
@@ -100,6 +110,23 @@ public class Array<T> {
             data[i] = data[i+1];
         }
         return removeElement;
+    }
+
+    public T removeFirst() {
+        return remove(0);
+    }
+
+    public T removeLast() {
+        return remove(size-1);
+    }
+
+    public void removeAll(T element) {
+        int[] indexs = findAll(element);
+        for (int i = indexs.length-1; i >= 0; i--) {
+            if (0 != indexs[i]){
+                remove(indexs[i]);
+            }
+        }
     }
 
     public void removeElement(T element) {
