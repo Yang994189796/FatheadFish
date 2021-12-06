@@ -60,10 +60,10 @@ public class Array<T> {
      * */
     public void add(int index, T element) {
         if (size==data.length){
-            throw new IllegalArgumentException("AddLast failed. Array is full.");
+            throw new IllegalArgumentException("Add failed. Array is full.");
         }
         if (index<0 || index>size) {
-            throw new IllegalArgumentException("AddLast failed. Require index >=0 and index < =size.");
+            throw new IllegalArgumentException("Add failed. Require index >=0 and index < =size.");
         }
         for (int i = size-1; i >= index ; i--) {
             data[i+1] = data[i];
@@ -72,12 +72,49 @@ public class Array<T> {
         size++;
     }
 
+    public int find(T element) {
+        for (int i = 0; i < size; i++) {
+            if (element.equals(data[i])){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean contain(T element) {
+        for (int i = 0; i < size; i++) {
+            if (element.equals(data[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public T remove(int index) {
+        if (index<0 || index>size) {
+            throw new IllegalArgumentException("Remove failed. Index is illegal");
+        }
+        size--;
+        T removeElement = data[index];
+        for (int i = index; i < size ; i++) {
+            data[i] = data[i+1];
+        }
+        return removeElement;
+    }
+
+    public void removeElement(T element) {
+        int index = find(element);
+        if (-1 != index) {
+            remove(index);
+        }
+    }
+
     /**
      * 修改数组
      * */
     public void update(int index, T element) {
         if (index<0 || index>size) {
-            throw new IllegalArgumentException("AddLast failed. Index is illegal");
+            throw new IllegalArgumentException("Update failed. Index is illegal");
         }
         data[index] = element;
     }
@@ -87,8 +124,23 @@ public class Array<T> {
      * */
     public T get(int index) {
         if (index<0 || index>size) {
-            throw new IllegalArgumentException("AddLast failed. Index is illegal");
+            throw new IllegalArgumentException("Get failed. Index is illegal");
         }
         return data[index];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append(String.format("Array：size = %d ，capacity = %d\n",size,data.length));
+        res.append("[");
+        for (int i = 0; i < size; i++) {
+            res.append(data[i]);
+            if (i!=size-1){
+                res.append("，");
+            }
+        }
+        res.append("]");
+        return res.toString();
     }
 }
