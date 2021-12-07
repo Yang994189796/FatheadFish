@@ -91,6 +91,14 @@ public class Array<T> {
         return res;
     };
 
+    public T getLast() {
+        return get(size-1);
+    }
+
+    public T getFirst() {
+        return get(0);
+    }
+
     public boolean contain(T element) {
         for (int i = 0; i < size; i++) {
             if (element.equals(data[i])){
@@ -138,6 +146,10 @@ public class Array<T> {
         if (-1 != index) {
             remove(index);
         }
+    }
+
+    public boolean isEmpty(){
+        return size==0;
     }
 
     /**
