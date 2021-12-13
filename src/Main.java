@@ -1,34 +1,28 @@
-import array.Array;
+import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) {
-        Array arr = new Array(20);
-        arr.addLast(-1);
-        arr.addLast(0);
-        arr.addLast(1);
-        arr.addLast(3);
-        arr.addLast(4);
-        arr.addLast(10);
-        arr.addLast(25);
-        arr.addLast(50);
-        arr.addLast(50);
-        arr.addLast(50);
-        arr.addLast(100);
-        arr.addLast(100);
-        System.out.println(arr);
+        System.out.println(isValid("()"));
+    }
 
-        arr.remove(2);
-        System.out.println(arr);
-
-        arr.removeElement(-1);
-        System.out.println(arr);
-
-        int[] res = arr.findAll(50);
-        for (int re : res) {
-            System.out.print(re+",");
+    public static boolean isValid(String s) {
+        char[] chars = s.toCharArray();
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < chars.length; i++) {
+            char element = chars[i];
+            if ('['==element||'{'==element||'('==element) {
+                stack.push(element);
+            }else {
+                if (stack.isEmpty()){
+                    return false;
+                }
+                char last = stack.pop();
+                if (('['==last&&']'==element)||('{'==last&&'}'==element)||('('==last&&')'==element)){
+                }else {
+                    return false;
+                }
+            }
         }
-
-        arr.removeAll(50);
-        System.out.println("\n"+arr);
+        return stack.isEmpty();
     }
 }
