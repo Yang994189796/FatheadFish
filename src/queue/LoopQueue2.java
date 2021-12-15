@@ -27,7 +27,7 @@ public class LoopQueue2<E> implements Queue<E> {
         if (front > tail) {
             return (data.length - front) + tail;
         } else {
-            return (data.length - front) - (data.length - tail);
+            return tail-front;
         }
     }
 
