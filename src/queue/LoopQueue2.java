@@ -1,22 +1,20 @@
 package queue;
 
 /**
- * 循环队列
+ * 循环队列---去除size变量方式
  */
-public class LoopQueue<E> implements Queue<E> {
+public class LoopQueue2<E> implements Queue<E> {
 
     private E[] data;
     private int front, tail;
-    private int size;
 
-    public LoopQueue(int capacity) {
+    public LoopQueue2(int capacity) {
         data = (E[]) new Object[capacity + 1];
         front = 0;
         tail = 0;
-        size = 0;
     }
 
-    public LoopQueue() {
+    public LoopQueue2() {
         this(10);
     }
 
@@ -26,7 +24,11 @@ public class LoopQueue<E> implements Queue<E> {
 
     @Override
     public int getSize() {
-        return size;
+        if (front > tail) {
+            return (data.length - front) + tail;
+        } else {
+            return (data.length - front) - (data.length - tail);
+        }
     }
 
     @Override
@@ -41,7 +43,6 @@ public class LoopQueue<E> implements Queue<E> {
         }
         data[tail] = element;
         tail = (tail + 1) % data.length;
-        size++;
     }
 
     @Override
@@ -52,9 +53,8 @@ public class LoopQueue<E> implements Queue<E> {
         E ret = data[front];
         data[front] = null;
         front = (front + 1) % data.length;
-        size--;
-        if(size == getCapacity()/4 && getCapacity()/2 != 0){
-            resize(getCapacity()/2);
+        if (getSize() == getCapacity() / 4 && getCapacity() / 2 != 0) {
+            resize(getCapacity() / 2);
         }
         return ret;
     }
@@ -69,21 +69,22 @@ public class LoopQueue<E> implements Queue<E> {
 
     public void resize(int newCapacity) {
         E[] newData = (E[]) new Object[newCapacity + 1];
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < getSize(); i++) {
             newData[i] = data[(i + front) % data.length];
         }
-        data = newData;
+        tail = getSize();
         front = 0;
-        tail = size;
+        data = newData;
     }
+
 
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
-        res.append(String.format("LoopQueue：front = %d ，tail = %d ，size = %d ，capacity = %d\n",front,tail,size,getCapacity()));
-        res.append("LoopQueue: ");
+        res.append(String.format("LoopQueue2：front = %d ，tail = %d ，size = %d ，capacity = %d\n",front,tail,getSize(),getCapacity()));
+        res.append("LoopQueue2: ");
         res.append("[");
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < getSize(); i++) {
             res.append(data[(i + front) % data.length]);
             if (tail != ((front+i+1)%data.length)){
                 res.append(", ");
